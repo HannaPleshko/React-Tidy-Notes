@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { Box } from '@mui/system';
 import { Button, Modal, TextField } from '@mui/material';
 import style from './ModalTab.module.scss';
-import { writeJsonFile } from 'write-json-file';
-import fs, { promises as fsPromises } from 'node:fs';
-import path from 'node:path';
+import { addToLocaleStorage, readFromLocaleStorage } from '../../utils/localeStorage';
 
 const boxStyle = {
   position: 'absolute' as 'absolute',
@@ -18,22 +16,20 @@ const boxStyle = {
   p: 4,
 };
 
-interface iModalTab {
-  open: boolean;
-  handleClose: () => void;
-}
-
-const ModalTab: React.FC<iModalTab> = ({ open, handleClose }) => {
+const ModalTab: React.FC<any> = ({ setTable, open, handleClose }) => {
   const [inp, setInp] = useState({});
 
-  const writeTaskToJSON = async () => {
-    // console.log(__dirname + 'src/storage/storage.json');
-    console.log(inp);
+  const writeTaskToLocaleStorage = () => {
+    debugger
 
-    // await fsPromises.mkdir(path.dirname('../../storage/storage.json'), { recursive: true });
+    const data = JSON.parse(localStorage.getItem('storage') ?? '')
 
-    // await writeJsonFile('../../storage/storage.json', JSON.stringify({ inp }));
+    data.push({ id: data.length + 1, title: inp })
 
+    localStorage.setItem('storage', JSON.stringify(data));
+
+    setTable({})
+    handleClose()
   }
 
   return (
@@ -52,7 +48,7 @@ const ModalTab: React.FC<iModalTab> = ({ open, handleClose }) => {
             variant="standard"
           />
           <div>
-            <Button onClick={writeTaskToJSON} variant="outlined">CREATE</Button>
+            <Button onClick={writeTaskToLocaleStorage} variant="outlined">CREATE</Button>
           </div>
 
         </div>

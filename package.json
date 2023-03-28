@@ -25,8 +25,11 @@
     "write-json-file": "^5.0.0"
   },
   "scripts": {
+    "format": "prettier --write .",
     "start": "react-scripts start",
-    "format": "prettier --write ."
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

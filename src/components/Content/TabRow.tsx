@@ -2,13 +2,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { TableCell, IconButton } from '@mui/material/';
 import CreateIcon from '@mui/icons-material/Create';
 
-interface iTabRow {
-  el: number | string;
-  row: (string | number)[];
-  index: number;
-}
-
-const TabRow: React.FC<iTabRow> = ({ el, row, index }) => {
+const TabRow: React.FC<any> = ({ el, row, index }) => {
   return (
     <>
       <TableCell component="th" scope="row">

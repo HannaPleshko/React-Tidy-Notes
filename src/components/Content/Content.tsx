@@ -16,6 +16,7 @@ import TabRow from './TabRow';
 import { useEffect, useState } from 'react';
 import storage from '../../storage/storage.json';
 import ModalTab from '../ModalTab/ModalTab';
+import { addToLocaleStorage, readFromLocaleStorage } from '../../utils/localeStorage';
 
 const Icon = styled(AddShoppingCartIcon)`
   color: #1667b8;
@@ -33,26 +34,31 @@ const StyledTableRow = styled(TableRow)(() => ({
   },
 }));
 
-interface iTable {
-  keys?: (string | number)[];
-  vals?: (string | number)[][];
-}
 
 function Content() {
-  const [table, setTable] = useState<iTable>({ keys: [], vals: [] });
+  const [table, setTable] = useState<any>();
+  const [dataTable, setdataTable] = useState<any>();
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const getData = () => {
-    const keys = Object.keys(storage[0])
-    const vals = storage.map(el => Object.values(el))
-    setTable({ keys, vals })
+  const getDataFromLocaleStorage = () => {
+    debugger
+    const data = readFromLocaleStorage()
+
+    const keys = Object.keys(data[0])
+    const vals = data.map((el: any) => Object.values(el))
+
+    setdataTable({ keys, vals })
   }
 
   useEffect(() => {
-    getData()
+    getDataFromLocaleStorage()
+  }, [table])
+
+  useEffect(() => {
+    addToLocaleStorage(storage)
   }, [])
 
   return (
@@ -72,26 +78,26 @@ function Content() {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <StyledTableRow>
-              {table?.keys?.map((el) => <StyledTableCell key={Math.random()}>{el}</StyledTableCell>) ?? null}
+              {dataTable?.keys.length ? dataTable.keys.map((el: any) => <StyledTableCell key={Math.random()}>{el}</StyledTableCell>) : null}
               <StyledTableCell></StyledTableCell>
             </StyledTableRow>
           </TableHead>
 
           <TableBody>
 
-            {table?.vals?.map((row : (string|number)[]) => (
+            {dataTable?.vals.length ? dataTable?.vals?.map((row: any) => (
               <StyledTableRow key={Math.random()}>
-                {row.map((el: (string | number), index: number) => (
+                {row.map((el: any, index: any) => (
                   <TabRow key={Math.random()} index={index} el={el} row={row} />
                 ))}
               </StyledTableRow>
             ))
-              ?? null}
+              : null}
           </TableBody>
         </Table>
       </TableContainer>
 
-      {open ? <ModalTab open={open} handleClose={handleClose} /> : null}
+      {open ? <ModalTab setTable={setTable} open={open} handleClose={handleClose} /> : null}
     </div>
   );
 }
