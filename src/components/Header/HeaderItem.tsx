@@ -21,6 +21,6 @@ const HeaderItem: React.FC<iHeaderItem> = ({ title }) => {
       <Btn>{title}</Btn>
     </div>
   );
-}
+};
 
 export default HeaderItem;

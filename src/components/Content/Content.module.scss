@@ -1,5 +1,3 @@
-
-
 .content-head {
   display: flex;
   align-items: center;
@@ -11,7 +9,7 @@
     color: #1667b8;
   }
 
-  .img {
+  .icon {
     color: transparent;
     cursor: pointer;
     transition: all 1s linear;
@@ -23,5 +21,18 @@
     &:hover {
       color: #627d9485;
     }
+  }
+}
+
+.content-body {
+  max-height: 350px;
+  min-width: 650px;
+
+  .table-row:hover {
+    background-color: #1667b806;
+  }
+
+  .table-cell {
+    background-color: #f5faff;
   }
 }
