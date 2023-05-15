@@ -1,8 +1,13 @@
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { Button, Modal, TextField } from '@mui/material';
 import style from './ModalTab.module.scss';
 
-const ModalTab: React.FC<any> = ({ open, handleClose }) => {
+interface ModalTabProps {
+  open: boolean;
+  handleClose: () => void;
+};
+
+const ModalTab: React.FC<ModalTabProps> = ({ open, handleClose }) => {
   const [inp, setInp] = useState({});
 
   const generateTak = () => {
@@ -18,13 +23,18 @@ const ModalTab: React.FC<any> = ({ open, handleClose }) => {
     //   handleClose()
   };
 
+  const saveInpValue = (e: ChangeEvent<HTMLInputElement>) => setInp({ ...inp, [e.target.name]: e.target.value })
+
   return (
     <Modal open={open} onClose={handleClose}>
       <div className={style['wrapper']}>
         <h1>CREATE TASK</h1>
 
         <div className={style['input']}>
-          <TextField onChange={(e) => setInp(e.target.value)} variant="standard" />
+          <TextField name='title' onChange={saveInpValue} variant="standard" />
+        </div>
+        <div className={style['input']}>
+          <TextField name='description' onChange={saveInpValue} variant="standard" />
         </div>
 
         <div>
